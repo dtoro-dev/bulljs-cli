@@ -1,0 +1,20 @@
+{
+  "name": "bulljs-cli",
+  "version": "1.0.0",
+  "description": "CLI for initializing bulljs projects",
+  "author": "Diego Toro Reyes <dtoro.a.s@gmail.com>",
+  "bin": {
+    "bull": "./index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "inquirer": "^8.2.0",
+    "chalk": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
