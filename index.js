@@ -1,8 +1,16 @@
+#!/usr/bin/env node
+
 const { execSync } = require('child_process');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const fs = require('fs');
 const path = require('path');
+
+// Importar la versión desde package.json
+const { version } = require('./package.json');
+
+// Obtener argumentos desde la línea de comandos
+const args = process.argv.slice(2);
 
 async function createProject() {
   const answers = await inquirer.prompt([
@@ -44,4 +52,11 @@ async function createProject() {
   console.log(chalk.blue(`pnpm run dev`));
 }
 
+// Manejar el comando de versión
+if (args[0] === '--version' || args[0] === '-v') {
+  console.log(`bulljs-cli version: ${version}`);
+  process.exit(0);
+}
+
+// Si no se especifica el comando --version o -v, crear el proyecto
 createProject();
