@@ -73,8 +73,8 @@ pnpm run remove:module <module-name>
 ```
 
 ### Requisitos
- - Node.js >= 14.x
- - pnpm instalado globalmente.
+- Node.js >= 20.15.1 (LTS)
+- `pnpm` instalado globalmente.
 
 ### Contribución
 Si deseas contribuir a este proyecto, sigue estos pasos:
