@@ -6,11 +6,9 @@
 
   # BullJS CLI
 
-  [![TypeScript](https://img.shields.io/badge/TypeScript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Node.js](https://img.shields.io/badge/Node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-  [![Express](https://img.shields.io/badge/Express-%23000000.svg?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-  [![Prisma](https://img.shields.io/badge/Prisma-%2300A3E0.svg?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
-  [![SQLite](https://img.shields.io/badge/SQLite-%23003B57.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
+  ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+  ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
   ![GitHub stars](https://img.shields.io/github/stars/dtoro-dev/bulljs-cli)
   ![GitHub issues](https://img.shields.io/github/issues/dtoro-dev/bulljs-cli)
@@ -20,13 +18,16 @@
 
 ## Descripción
 
-BullJS CLI es una herramienta de línea de comandos diseñada para inicializar proyectos basados en el repositorio [bullwork](https://github.com/dtoro-dev/bullwork). Con BullJS CLI, puedes crear nuevos proyectos rápidamente y comenzar a desarrollar en minutos.
+BullJS CLI es una herramienta de línea de comandos diseñada para inicializar proyectos backend basados en el repositorio [bullwork](https://github.com/dtoro-dev/bullwork). Con BullJS CLI, puedes crear nuevos proyectos rápidamente y comenzar a desarrollar en minutos. Lo puedes encontrar en *npm* [bulljs-cli](https://www.npmjs.com/package/bulljs-cli).
 
 ## Características
 
 - **Inicialización Rápida**: Clona automáticamente el repositorio bullwork.
 - **Instalación Automática de Dependencias**: Configura tu entorno de desarrollo con todas las dependencias necesarias.
 - **Configuración Personalizada**: Facilita la creación de proyectos con nombres personalizados.
+- **Opción de Saltar Prompts**: Si se proporciona un nombre de proyecto directamente, se salta el prompt interactivo.
+- **Comandos de Versión**: Consulta la versión de BullJS CLI instalada con bull -v o bull --version.
+- **Manejo de Cancelación**: Presiona Ctrl + C para cancelar el proceso de creación del proyecto con un mensaje claro en la consola.
 
 ## Instalación
 
@@ -40,14 +41,19 @@ npm install -g bulljs-cli
 Para crear un nuevo proyecto, simplemente ejecuta:
 
 ```bash
+bull new
+```
+O
+```bash
 bull new project-name
 ```
 
 Esto hará lo siguiente:
 
- - Clonará el repositorio [bullwork](https://github.com/dtoro-dev/bullwork).
-Instalará todas las dependencias necesarias utilizando pnpm.
-Configurará el proyecto en una nueva carpeta con el nombre project-name.
+- Clonará el repositorio [bullwork](https://github.com/dtoro-dev/bullwork).
+- Instalará todas las dependencias necesarias utilizando pnpm.
+- Configurará el proyecto en una nueva carpeta con el nombre project-name.
+- Podrás utilizar los comandos del Bulljs-cli para crear y eliminar módulos.
 
 #### Ejemplo
 ```bash
@@ -59,17 +65,17 @@ Una vez creado el proyecto, puedes utilizar los siguientes comandos:
 
  - Inicia el entorno de desarrollo.
 ```bash
-pnpm run dev
+bull run dev
 ```
 
  - Genera un nuevo módulo en el proyecto.
 ```bash
-pnpm run generate:module <module-name>
+bull run generate:module <module-name>
 ```
 
  - Elimina un módulo existente del proyecto.
 ```bash
-pnpm run remove:module <module-name>
+bull run remove:module <module-name>
 ```
 
 ### Requisitos

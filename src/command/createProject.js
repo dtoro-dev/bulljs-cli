@@ -1,27 +1,25 @@
-#!/usr/bin/env node
+import inquirer from 'inquirer';
+import chalk from 'chalk';
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
-const { execSync } = require('child_process');
-const inquirer = require('inquirer');
-const chalk = require('chalk');
-const fs = require('fs');
-const path = require('path');
+export async function createProject(projectNameArg) {
+  let projectName;
 
-// Importar la versión desde package.json
-const { version } = require('./package.json');
+  if (projectNameArg) {
+    projectName = projectNameArg;
+  } else {
+    const answers = await inquirer.prompt([
+      {
+        name: 'projectName',
+        message: 'What is the name of your project?',
+        default: 'bulljs-project',
+      },
+    ]);
+    projectName = answers.projectName;
+  }
 
-// Obtener argumentos desde la línea de comandos
-const args = process.argv.slice(2);
-
-async function createProject() {
-  const answers = await inquirer.prompt([
-    {
-      name: 'projectName',
-      message: 'What is the name of your project?',
-      default: 'bulljs-project',
-    },
-  ]);
-
-  const projectName = answers.projectName;
   const projectPath = path.join(process.cwd(), projectName);
 
   if (fs.existsSync(projectPath)) {
@@ -31,7 +29,6 @@ async function createProject() {
 
   console.log(chalk.green(`Creating project ${projectName}...`));
 
-  // Clonar el repositorio base
   try {
     execSync(`git clone https://github.com/dtoro-dev/bullwork.git ${projectName}`, { stdio: 'inherit' });
   } catch (error) {
@@ -51,12 +48,3 @@ async function createProject() {
   console.log(chalk.blue(`cd ${projectName}`));
   console.log(chalk.blue(`pnpm run dev`));
 }
-
-// Manejar el comando de versión
-if (args[0] === '--version' || args[0] === '-v') {
-  console.log(`bulljs-cli version: ${version}`);
-  process.exit(0);
-}
-
-// Si no se especifica el comando --version o -v, crear el proyecto
-createProject();
