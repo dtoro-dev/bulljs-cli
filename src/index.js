@@ -53,6 +53,32 @@ if (command === "-v" || command === "--version") {
     console.error(chalk.red(`Failed to install ${packageName}.`));
     console.error(error.message);
   }
+}else if(command === "remove") {
+  const packageName = args[1];
+  if (!packageName) {
+    console.log(chalk.red("Please provide a package name to remove."));
+    process.exit(1);
+  }
+
+  try {
+    console.log(chalk.green(`Removing ${packageName}...`));
+    execSync(`pnpm remove ${packageName}`, { stdio: "inherit" });
+    console.log(chalk.green(`${packageName} removed successfully.`));
+  } catch (error) {
+    console.error(chalk.red(`Failed to remove ${packageName}.`));
+    console.error(error.message);
+  }
+
+} else if(command === "build") {
+  try {
+    console.log(chalk.green("Building project..."));
+    execSync("pnpm run build", { stdio: "inherit" });
+    console.log(chalk.green("Project built successfully."));
+  } catch (error) {
+    console.error(chalk.red("Failed to build the project."));
+    console.error(error.message);
+  }
+
 } else {
   console.log(chalk.red("Unknown command"));
 }

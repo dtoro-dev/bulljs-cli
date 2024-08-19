@@ -78,6 +78,21 @@ bull run generate:module <module-name>
 bull run remove:module <module-name>
 ```
 
+ - Transpilar codigo
+```bash
+bull build
+```
+
+ - Instala una nueva dependencia
+```bash
+bull install <dependency-name>
+```
+
+ - Elimina una dependencia
+```bash
+bull remove <dependency-name>
+```
+
 ### Requisitos
 - Node.js >= 20.15.1 (LTS)
 - `pnpm` instalado globalmente.
