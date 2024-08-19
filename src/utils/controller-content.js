@@ -2,42 +2,72 @@ import { capitalize } from "./capitalize.js";
 
 export const getControllerContent = (moduleName) => {
   const className = capitalize(moduleName) + "Controller";
-  return `import { ${capitalize(
+  const serviceName = capitalize(moduleName) + "Service";
+  return `import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+} from "@decorators/index";
+import { Inject } from "@decorators/injectable";
+import { ${capitalize(
     moduleName
   )}Service } from './${moduleName}.service';
-import { Request, Response } from 'express';
+import { Create${capitalize(
+    moduleName
+  )}Dto, Update${capitalize(
+    moduleName
+  )}Dto } from './${moduleName}.dto';
+import { Req, Res, ResType, ReqType } from "@decorators/params";
 
-export class ${className} {
-  constructor(private ${moduleName}Service: ${capitalize(moduleName)}Service) {}
-
-  async getAll(req: Request, res: Response): Promise<void> {
-    const data = await this.${moduleName}Service.findAll();
+@Controller('/${moduleName}')
+class ${className} {
+  @Inject(${serviceName})
+  private ${serviceName}!: ${capitalize(serviceName)};
+  
+  constructor() {}
+  
+  @Get("/")
+  async getAll(@Req() req: ReqType, @Res() res: ResType): Promise<void> {
+    const data = await this.${serviceName}.findAll();
     res.json(data);
   }
 
-  async getOne(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const data = await this.${moduleName}Service.findOne(id);
+  @Get("/:id")
+  async getOne(@Param("id") id: string, @Res() res: ResType): Promise<void> {
+    const data = await this.${serviceName}.findOne(id);
     res.json(data);
   }
 
-  async create(req: Request, res: Response): Promise<void> {
-    const dto = req.body;
-    const data = await this.${moduleName}Service.create(dto);
+  @Post("/")
+  async create(
+    @Body() dto: Create${capitalize(moduleName)}Dto,
+    @Res() res: ResType
+  ): Promise<void> {
+    const data = await this.${serviceName}.create(dto);
     res.status(201).json(data);
   }
 
-  async update(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const dto = req.body;
-    const data = await this.${moduleName}Service.update(id, dto);
+  @Put("/:id")
+  async update(
+    @Param("id") id: string,
+    @Body() dto: Update${capitalize(moduleName)}Dto,
+    @Res() res: ResType
+  ): Promise<void> {
+    const data = await this.${serviceName}.update(id, dto);
     res.json(data);
   }
 
-  async delete(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    await this.${moduleName}Service.delete(id);
+  @Delete("/:id")
+  async delete(@Param("id") id: string, @Res() res: ResType): Promise<void> {
+    await this.${serviceName}.delete(id);
     res.status(204).send();
   }
-}`;
+}
+  
+export default ${className};
+`;
 }
