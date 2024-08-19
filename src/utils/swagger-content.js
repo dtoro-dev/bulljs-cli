@@ -58,6 +58,8 @@ export function getSwaggerContent(moduleName) {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Create${capitalize(moduleName)}Dto'
+ *           example:
+ *             name: "string"
  *     responses:
  *       201:
  *         description: The created ${moduleName}
@@ -85,6 +87,8 @@ export function getSwaggerContent(moduleName) {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Update${capitalize(moduleName)}Dto'
+ *           example:
+ *             name: "string"
  *     responses:
  *       200:
  *         description: The updated ${moduleName}

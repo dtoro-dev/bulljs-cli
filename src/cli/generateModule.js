@@ -9,6 +9,7 @@ import {
   getTestContent,
   getSwaggerContent,
 } from "../utils/template.js";
+import chalk from "chalk";
 
 export function generateModule(moduleName) {
   const moduleDirPath = path.join(process.cwd(), "src", "app", moduleName);
@@ -25,11 +26,12 @@ export function generateModule(moduleName) {
       file: `${moduleName}.controller.ts`,
       content: getControllerContent(moduleName),
     },
-    {
-      dir: moduleDirPath,
-      file: `${moduleName}.routes.ts`,
-      content: getRoutesContent(moduleName),
-    },
+    // opcionales
+    // { 
+    //   dir: moduleDirPath,
+    //   file: `${moduleName}.routes.ts`,
+    //   content: getRoutesContent(moduleName),
+    // },
     {
       dir: moduleDirPath,
       file: `${moduleName}.service.ts`,
@@ -56,19 +58,27 @@ export function generateModule(moduleName) {
     const filePath = path.join(dir, file);
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, content, "utf8");
-      console.log(`File created: ${filePath}`);
+      console.log(`${chalk.yellow("File created:")} ${chalk.blueBright(file)}`);
     }
   });
 
   if (!fs.existsSync(testsDirPath)) {
     fs.mkdirSync(testsDirPath, { recursive: true });
-    console.log(`Tests directory created: ${testsDirPath}`);
+    console.log(
+      `${chalk.yellow("Tests directory created:")} /${chalk.blueBright(
+        moduleName
+      )}`
+    );
   }
 
   const testFilePath = path.join(testsDirPath, `${moduleName}.test.ts`);
   if (!fs.existsSync(testFilePath)) {
     const testContent = getTestContent(moduleName);
     fs.writeFileSync(testFilePath, testContent, "utf8");
-    console.log(`Test file ${testFilePath} created.`);
+    console.log(
+      `${chalk.yellow("File created:")} ${chalk.blueBright(
+        `${moduleName}.test.ts`
+      )}`
+    );
   }
 }

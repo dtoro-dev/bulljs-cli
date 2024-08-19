@@ -1,10 +1,16 @@
 import { capitalize } from "./capitalize.js";
 
 export function getServiceContent(moduleName) {
-  return `import { ${capitalize(moduleName)} } from './${moduleName}.interface';
+  return `import { Injectable } from '@decorators/injectable';
+import { ${capitalize(moduleName)} } from './${moduleName}.interface';
 
+@Injectable()
 export class ${capitalize(moduleName)}Service {
-  private data: ${capitalize(moduleName)}[] = [];
+  private data: ${capitalize(moduleName)}[] = [
+    { id: '1', name: 'Example ${capitalize(moduleName)} 1' },
+    { id: '2', name: 'Example ${capitalize(moduleName)} 2' },
+    { id: '3', name: 'Example ${capitalize(moduleName)} 3' }
+  ];
 
   async findAll(): Promise<${capitalize(moduleName)}[]> {
     return this.data;
