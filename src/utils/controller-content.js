@@ -44,7 +44,7 @@ class ${className} {
 
   @Post("/")
   async create(
-    @Body() dto: Create${capitalize(moduleName)}Dto,
+    @Body(Create${capitalize(moduleName)}Dto) dto: Create${capitalize(moduleName)}Dto,
     @Res() res: ResType
   ): Promise<void> {
     const data = await this.${serviceName}.create(dto);
@@ -54,7 +54,7 @@ class ${className} {
   @Put("/:id")
   async update(
     @Param("id") id: string,
-    @Body() dto: Update${capitalize(moduleName)}Dto,
+    @Body(Update${capitalize(moduleName)}Dto) dto: Update${capitalize(moduleName)}Dto,
     @Res() res: ResType
   ): Promise<void> {
     const data = await this.${serviceName}.update(id, dto);
