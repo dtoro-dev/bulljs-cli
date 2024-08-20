@@ -1,11 +1,18 @@
 import { capitalize } from "./capitalize.js";
 
 export function getDtoContent(moduleName) {
-  return `export interface Create${capitalize(moduleName)}Dto {
-  name: string;
+  return `import { IsOptional, IsString, MinLength } from "@decorators/validation";
+
+export class Create${capitalize(moduleName)}Dto {
+  @IsString()
+  @MinLength(5)
+  name!: string;
 }
 
-export interface Update${capitalize(moduleName)}Dto {
+export class Update${capitalize(moduleName)}Dto {
+  @IsString()
+  @MinLength(5)
+  @IsOptional()
   name?: string;
 }`;
 }
