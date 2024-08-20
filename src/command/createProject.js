@@ -46,5 +46,6 @@ export async function createProject(projectNameArg) {
   console.log(chalk.green(`Project ${projectName} created successfully based on bullwork.`));
   console.log(chalk.blue(`\nTo get started:\n`));
   console.log(chalk.blue(`cd ${projectName}`));
-  console.log(chalk.blue(`pnpm run dev`));
+  console.log(chalk.blue(`bull dev`));
+  console.log(chalk.blue(`bull run dev`));
 }
