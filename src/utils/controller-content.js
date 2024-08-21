@@ -1,6 +1,15 @@
 import { capitalize } from "./capitalize.js";
 
-export const getControllerContent = (moduleName) => {
+const controllerModularContent = (setupModule, serviceName) => {
+  return setupModule
+    ? `constructor(private readonly ${serviceName}!: ${capitalize(serviceName)}) {}`
+    : `@Inject(${serviceName})
+  private ${serviceName}: ${capitalize(serviceName)};
+  
+  constructor() {}`;
+};
+
+export const getControllerContent = (moduleName, setupModule = false) => {
   const className = capitalize(moduleName) + "Controller";
   const serviceName = capitalize(moduleName) + "Service";
   return `import {
@@ -12,23 +21,16 @@ export const getControllerContent = (moduleName) => {
   Param,
   Body,
 } from "@decorators/index";
-import { Inject } from "@decorators/injectable";
-import { ${capitalize(
-    moduleName
-  )}Service } from './${moduleName}.service';
-import { Create${capitalize(
-    moduleName
-  )}Dto, Update${capitalize(
+${setupModule ? "" : 'import { Inject } from "@decorators/injectable";'}
+import { ${capitalize(moduleName)}Service } from './${moduleName}.service';
+import { Create${capitalize(moduleName)}Dto, Update${capitalize(
     moduleName
   )}Dto } from './${moduleName}.dto';
 import { Req, Res, ResType, ReqType } from "@decorators/params";
 
 @Controller('/${moduleName}')
 class ${className} {
-  @Inject(${serviceName})
-  private ${serviceName}!: ${capitalize(serviceName)};
-  
-  constructor() {}
+  ${controllerModularContent(setupModule, serviceName)}
   
   @Get("/")
   async getAll(@Req() req: ReqType, @Res() res: ResType): Promise<void> {
@@ -44,7 +46,9 @@ class ${className} {
 
   @Post("/")
   async create(
-    @Body(Create${capitalize(moduleName)}Dto) dto: Create${capitalize(moduleName)}Dto,
+    @Body(Create${capitalize(moduleName)}Dto) dto: Create${capitalize(
+    moduleName
+  )}Dto,
     @Res() res: ResType
   ): Promise<void> {
     const data = await this.${serviceName}.create(dto);
@@ -54,7 +58,9 @@ class ${className} {
   @Put("/:id")
   async update(
     @Param("id") id: string,
-    @Body(Update${capitalize(moduleName)}Dto) dto: Update${capitalize(moduleName)}Dto,
+    @Body(Update${capitalize(moduleName)}Dto) dto: Update${capitalize(
+    moduleName
+  )}Dto,
     @Res() res: ResType
   ): Promise<void> {
     const data = await this.${serviceName}.update(id, dto);
@@ -70,4 +76,4 @@ class ${className} {
   
 export default ${className};
 `;
-}
+};
