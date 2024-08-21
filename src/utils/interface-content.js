@@ -6,10 +6,10 @@ export function getInterfaceContent(moduleName) {
 export class ${capitalize(moduleName)} {
   @IsString()
   @MinLength(5)
-  id: string;
+  id!: string;
   
   @IsString()
   @MinLength(5)
-  name: string;
+  name!: string;
 }`;
 }

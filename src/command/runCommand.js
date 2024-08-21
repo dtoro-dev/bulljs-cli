@@ -18,6 +18,7 @@ export function runCommand() {
       console.log(chalk.red('Please provide a module name.'));
       process.exit(1);
     }
+
     generateModule(moduleName);
   } else if (command === 'remove:module') {
     if (!moduleName) {

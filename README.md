@@ -20,6 +20,8 @@
 
 BullJS CLI es una herramienta de línea de comandos diseñada para inicializar proyectos backend basados en el repositorio [bullwork](https://github.com/dtoro-dev/bullwork). Con BullJS CLI, puedes crear nuevos proyectos rápidamente y comenzar a desarrollar en minutos. Lo puedes encontrar en *npm* [bulljs-cli](https://www.npmjs.com/package/bulljs-cli).
 
+**Versión Actual**: 1.0.7
+
 ## Características
 
 - **Inicialización Rápida**: Clona automáticamente el repositorio bullwork.
@@ -28,13 +30,14 @@ BullJS CLI es una herramienta de línea de comandos diseñada para inicializar p
 - **Opción de Saltar Prompts**: Si se proporciona un nombre de proyecto directamente, se salta el prompt interactivo.
 - **Comandos de Versión**: Consulta la versión de BullJS CLI instalada con bull -v o bull --version.
 - **Manejo de Cancelación**: Presiona Ctrl + C para cancelar el proceso de creación del proyecto con un mensaje claro en la consola.
+- **Configuración de Módulos**: Al generar un nuevo módulo, se te preguntará si deseas configurarlo con una estructura modular.
 
 ## Instalación
 
 Primero, instala BullJS CLI globalmente en tu máquina:
 
 ```bash
-npm install -g bulljs-cli
+npm install -g bulljs-cli pnpm
 ```
 
 ### Uso
@@ -72,6 +75,7 @@ bull run dev
 ```bash
 bull run generate:module <module-name>
 ```
+Al ejecutar este comando, se te preguntará: Do you want to setup a module? (y/N). Dependiendo de tu respuesta, el módulo se configurará con una estructura modular.
 
  - Elimina un módulo existente del proyecto.
 ```bash
@@ -96,6 +100,13 @@ bull remove <dependency-name>
 ### Requisitos
 - Node.js >= 20.15.1 (LTS)
 - `pnpm` instalado globalmente.
+
+## Changelog
+
+### Versión 1.0.7
+- **Nuevo**: Implementación de la pregunta `Do you want to setup a module? (y/N)` al generar un nuevo módulo.
+- **Mejora**: Gestión mejorada de módulos en `app.module.ts`.
+- **Corrección**: Manejo adecuado de imports al eliminar módulos de `app.module.ts`.
 
 ### Contribución
 Si deseas contribuir a este proyecto, sigue estos pasos:
