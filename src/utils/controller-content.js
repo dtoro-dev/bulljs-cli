@@ -2,16 +2,16 @@ import { capitalize } from "./capitalize.js";
 
 const controllerModularContent = (setupModule, serviceName) => {
   return setupModule
-    ? `constructor(private readonly ${serviceName}!: ${capitalize(serviceName)}) {}`
-    : `@Inject(${serviceName})
-  private ${serviceName}: ${capitalize(serviceName)};
+    ? `constructor(private readonly ${serviceName}: ${capitalize(serviceName)}) {}`
+    : `@Inject(${capitalize(serviceName)})
+  private ${serviceName}!: ${capitalize(serviceName)};
   
   constructor() {}`;
 };
 
 export const getControllerContent = (moduleName, setupModule = false) => {
   const className = capitalize(moduleName) + "Controller";
-  const serviceName = capitalize(moduleName) + "Service";
+  const serviceName = moduleName + "Service";
   return `import {
   Controller,
   Get,
@@ -21,13 +21,12 @@ export const getControllerContent = (moduleName, setupModule = false) => {
   Param,
   Body,
 } from "@decorators/index";
-${setupModule ? "" : 'import { Inject } from "@decorators/injectable";'}
-import { ${capitalize(moduleName)}Service } from './${moduleName}.service';
+import { ${capitalize(serviceName)} } from './${moduleName}.service';
 import { Create${capitalize(moduleName)}Dto, Update${capitalize(
     moduleName
   )}Dto } from './${moduleName}.dto';
 import { Req, Res, ResType, ReqType } from "@decorators/params";
-
+${setupModule ? "" : 'import { Inject } from "@decorators/injectable";\n'}
 @Controller('/${moduleName}')
 class ${className} {
   ${controllerModularContent(setupModule, serviceName)}
