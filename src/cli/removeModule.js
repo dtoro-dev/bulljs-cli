@@ -1,33 +1,35 @@
 import chalk from "chalk";
 import fs from "fs";
 import path from "path";
-import ora from "ora";
 import { capitalize } from "../utils/capitalize.js";
 
 export function removeModule(moduleName) {
+  console.log(chalk.cyan(`Starting removal of module ${moduleName}...`));
+
   const startTime = new Date();
-  
-  const spinner = ora(`Starting removal of module ${moduleName}...`).start();
   
   const moduleDirPath = path.join(process.cwd(), "src", "app", moduleName);
   const testsDirPath = path.join(process.cwd(), "src", "tests", moduleName);
   const appModulePath = path.join(process.cwd(), "src", "app.module.ts");
 
   try {
+    // Removing the module directory
     if (fs.existsSync(moduleDirPath)) {
       fs.rmSync(moduleDirPath, { recursive: true, force: true });
-      spinner.succeed(`Module ${chalk.red(moduleName)} removed from ${chalk.redBright(moduleDirPath)}.`);
+      console.log(chalk.green(`✔ Module ${chalk.red(moduleName)} removed from ${chalk.redBright(moduleDirPath)}.`));
     } else {
-      spinner.info(`Module ${chalk.red(moduleName)} not found in ${chalk.redBright(moduleDirPath)}.`);
+      console.log(chalk.yellow(`✔ Module ${chalk.red(moduleName)} not found in ${chalk.redBright(moduleDirPath)}.`));
     }
 
+    // Removing the tests directory
     if (fs.existsSync(testsDirPath)) {
       fs.rmSync(testsDirPath, { recursive: true, force: true });
-      spinner.succeed(`Tests for module ${chalk.red(moduleName)} removed from ${chalk.redBright(testsDirPath)}.`);
+      console.log(chalk.green(`✔ Tests for module ${chalk.red(moduleName)} removed from ${chalk.redBright(testsDirPath)}.`));
     } else {
-      spinner.info(`Tests for module ${chalk.red(moduleName)} not found in ${chalk.redBright(testsDirPath)}.`);
+      console.log(chalk.yellow(`✔ Tests for module ${chalk.red(moduleName)} not found in ${chalk.redBright(testsDirPath)}.`));
     }
 
+    // Updating the app.module.ts file
     if (fs.existsSync(appModulePath)) {
       let appModuleContent = fs.readFileSync(appModulePath, "utf8");
 
@@ -43,8 +45,8 @@ export function removeModule(moduleName) {
         `\\s*${capitalize(moduleName)}Module,?`,
         "g"
       );
-
       appModuleContent = appModuleContent.replace(importsSectionRegex, "");
+
       appModuleContent = appModuleContent.replace(/^\s*[\r\n]{2,}/gm, "\n");
       appModuleContent = appModuleContent.replace(/\n{2,}/g, "\n");
 
@@ -63,22 +65,23 @@ export function removeModule(moduleName) {
 
       if (remainingModulesMatch) {
         fs.rmSync(appModulePath, { recursive: true, force: true });
-        spinner.succeed(`File ${chalk.redBright("app.module.ts")} deleted.`);
+        console.log(chalk.green(`✔ File ${chalk.redBright("app.module.ts")} deleted.`));
       } else {
         appModuleContent = appModuleContent.replace(/,\s*]/, "\n  ]");
         fs.writeFileSync(appModulePath, appModuleContent, "utf8");
-        spinner.succeed(`Module ${chalk.red(moduleName)} removed from ${chalk.redBright(appModulePath)}.`);
+        console.log(chalk.green(`✔ Module ${chalk.red(moduleName)} removed from ${chalk.redBright(appModulePath)}.`));
       }
-
-      const endTime = new Date();
-      const timeTaken = endTime - startTime;
-
-      spinner.succeed(`Module ${chalk.red(moduleName)} removed in ${chalk.greenBright(timeTaken)}ms.`);
     } else {
-      spinner.info(`No app.module.ts file found to update.`);
+      console.log(chalk.yellow(`✔ No app.module.ts file found to update.`));
     }
+
+    const endTime = new Date();
+    const timeTaken = endTime - startTime;
+
+    console.log(chalk.green(`✔ Module ${chalk.red(moduleName)} removed in ${chalk.greenBright(timeTaken)}ms.`));
+
   } catch (error) {
-    spinner.fail(`Failed to remove module ${moduleName}.`);
+    console.error(chalk.red(`Failed to remove module ${moduleName}.`));
     console.error(chalk.red(error.message));
   }
 }

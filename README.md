@@ -24,13 +24,13 @@ BullJS CLI es una herramienta de línea de comandos diseñada para inicializar p
 
 ## Características
 
-- **Inicialización Rápida**: Clona automáticamente el repositorio bullwork.
-- **Instalación Automática de Dependencias**: Configura tu entorno de desarrollo con todas las dependencias necesarias.
-- **Configuración Personalizada**: Facilita la creación de proyectos con nombres personalizados.
-- **Opción de Saltar Prompts**: Si se proporciona un nombre de proyecto directamente, se salta el prompt interactivo.
+- **Inicialización Rápida**: Clona automáticamente el repositorio bullwork y configura el entorno de desarrollo.
+- **Instalación Automática de Dependencias**: Configura tu proyecto con todas las dependencias necesarias.
+- **Manejo de Módulos**: Facilita la creación, eliminación y configuración de módulos con una estructura modular.
+- **Personalización y Flexibilidad**: Puedes elegir si deseas configurar un módulo con una estructura modular o no.
+- **Progreso Visual y Feedback**: Integración de barras de progreso y spinners para una mejor experiencia de usuario.
 - **Comandos de Versión**: Consulta la versión de BullJS CLI instalada con bull -v o bull --version.
 - **Manejo de Cancelación**: Presiona Ctrl + C para cancelar el proceso de creación del proyecto con un mensaje claro en la consola.
-- **Configuración de Módulos**: Al generar un nuevo módulo, se te preguntará si deseas configurarlo con una estructura modular.
 
 ## Instalación
 
@@ -74,12 +74,13 @@ bull run dev
  - Genera un nuevo módulo en el proyecto.
 ```bash
 bull run generate:module <module-name>
+bull run g:m <module-name>
 ```
 Al ejecutar este comando, se te preguntará: Do you want to setup a module? (y/N). Dependiendo de tu respuesta, el módulo se configurará con una estructura modular.
 
  - Elimina un módulo existente del proyecto.
 ```bash
-bull run remove:module <module-name>
+bull run r:m <module-name>
 ```
 
  - Transpilar codigo
@@ -102,6 +103,11 @@ bull remove <dependency-name>
 - `pnpm` instalado globalmente.
 
 ## Changelog
+
+### Versión 1.0.8
+- **Nuevo**: Implementación de feedback visual profesional al crear y eliminar módulos.
+- **Mejora**: Optimización del tiempo de ejecución y manejo de errores.
+- **Corrección**: Resueltos problemas con la actualización y eliminación de módulos en `app.module.ts`.
 
 ### Versión 1.0.7
 - **Nuevo**: Implementación de la pregunta `Do you want to setup a module? (y/N)` al generar un nuevo módulo.

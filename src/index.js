@@ -5,6 +5,7 @@ import { readFileSync } from "fs";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
+import ora from "ora";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const { name, version } = JSON.parse(
@@ -19,66 +20,55 @@ if (args.length === 0) {
 }
 
 const command = args[0];
+const spinner = ora()
 
-if (command === "-v" || command === "--version") {
-  console.log(chalk.green(`${name} version ${version}`));
-} else if (command === "new") {
-  const projectNameArg = args[1];
-  createProject(projectNameArg);
-} else if (command === "run") {
-  const subCommand = args.slice(1).join(" ");
-  runCommand(subCommand);
-} else if (command === "dev") {
-  try {
-    console.log(chalk.green("Starting development server..."));
+try {
+  if (command === "-v" || command === "--version") {
+    spinner.start();
+    spinner.succeed(`${name} version ${version}`);
+  } else if (command === "new") {
+    const projectNameArg = args[1];
+    createProject(projectNameArg);
+  } else if (command === "run") {
+    const subCommand = args.slice(1).join(" ");
+    runCommand(subCommand);
+  } else if (command === "dev") {
+    spinner.start();
+    spinner.start("Starting development server...");
     execSync("pnpm run dev", { stdio: "inherit" });
-  } catch (error) {
-    console.error(chalk.red("Failed to start the development server."));
-    console.error(error.message);
-  }
-} else if (command === "install") {
-  const packageName = args[1];
-  if (!packageName) {
-    console.log(chalk.green(`Installing dependencies...`));
-    execSync(`pnpm install`, { stdio: "inherit" });
-    console.log(chalk.green(`Installed dependencies successfully.`));
-    process.exit(1);
-  }
+    spinner.succeed("Development server started successfully.");
+  } else if (command === "install") {
+    const packageName = args[1];
+    if (!packageName) {
+      spinner.start();
+      spinner.start("Installing dependencies...");
+      execSync(`pnpm install`, { stdio: "inherit" });
+      spinner.succeed("Dependencies installed successfully.");
+      process.exit(1);
+    }
 
-  try {
-    console.log(chalk.green(`Installing ${packageName}...`));
+    spinner.start(`Installing ${packageName}...`);
     execSync(`pnpm install ${packageName}`, { stdio: "inherit" });
-    console.log(chalk.green(`${packageName} installed successfully.`));
-  } catch (error) {
-    console.error(chalk.red(`Failed to install ${packageName}.`));
-    console.error(error.message);
-  }
-}else if(command === "remove") {
-  const packageName = args[1];
-  if (!packageName) {
-    console.log(chalk.red("Please provide a package name to remove."));
-    process.exit(1);
-  }
+    spinner.succeed(`${packageName} installed successfully.`);
+  } else if (command === "remove") {
+    const packageName = args[1];
+    if (!packageName) {
+      spinner.fail("Please provide a package name to remove.");
+      process.exit(1);
+    }
 
-  try {
-    console.log(chalk.green(`Removing ${packageName}...`));
+    spinner.start(`Removing ${packageName}...`);
     execSync(`pnpm remove ${packageName}`, { stdio: "inherit" });
-    console.log(chalk.green(`${packageName} removed successfully.`));
-  } catch (error) {
-    console.error(chalk.red(`Failed to remove ${packageName}.`));
-    console.error(error.message);
-  }
-
-} else if(command === "build") {
-  try {
-    console.log(chalk.green("Building project..."));
+    spinner.succeed(`${packageName} removed successfully.`);
+  } else if (command === "build") {
+    spinner.start("Building project...");
     execSync("pnpm run build", { stdio: "inherit" });
-    console.log(chalk.green("Project built successfully."));
-  } catch (error) {
-    console.error(chalk.red("Failed to build the project."));
-    console.error(error.message);
+    spinner.succeed("Project built successfully.");
+  } else {
+    spinner.fail("Unknown command");
   }
-
-} else {
-  console.log(chalk.red("Unknown command"));
+} catch (error) {
+  spinner.fail("Command execution failed.");
+  console.error(chalk.red(error.message));
+  process.exit(1);
 }
