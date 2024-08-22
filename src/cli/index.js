@@ -10,9 +10,9 @@ if (!moduleName) {
   process.exit(1);
 }
 
-if (command === "generate:module") {
+if (command === "generate:module" || command === "g:m") {
   generateModule(moduleName);
-} else if (command === "remove:module") {
+} else if (command === "remove:module" || command === "r:m") {
   removeModule(moduleName);
 } else {
   console.log(chalk.red("Unknown command."));
