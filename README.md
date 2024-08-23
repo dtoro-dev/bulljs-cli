@@ -20,7 +20,7 @@
 
 BullJS CLI es una herramienta de línea de comandos diseñada para inicializar proyectos backend basados en el repositorio [bullwork](https://github.com/dtoro-dev/bullwork). Con BullJS CLI, puedes crear nuevos proyectos rápidamente y comenzar a desarrollar en minutos. Lo puedes encontrar en *npm* [bulljs-cli](https://www.npmjs.com/package/bulljs-cli).
 
-**Versión Actual**: 1.0.7
+**Versión Actual**: 1.0.9
 
 ## Características
 
@@ -103,6 +103,9 @@ bull remove <dependency-name>
 - `pnpm` instalado globalmente.
 
 ## Changelog
+
+### Versión 1.0.9
+- **Corrección**: Resueltos problemas con la creación de archivo test de ejemplo por modulo.
 
 ### Versión 1.0.8
 - **Nuevo**: Implementación de feedback visual profesional al crear y eliminar módulos.
