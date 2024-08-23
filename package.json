@@ -1,6 +1,6 @@
 {
   "name": "bulljs-cli",
-  "version": "1.0.8a",
+  "version": "1.0.9",
   "description": "CLI for initializing bulljs projects",
   "type": "module",
   "author": "Diego Toro Reyes <dtoro.a.s@gmail.com>",
